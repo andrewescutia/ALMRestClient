@@ -15,8 +15,10 @@ namespace ALMClientTests.Tests
 		private static string ALMAddress = global::ALMClientTests.Properties.Settings.Default.ALMAddress;
 		private static string UserName = global::ALMClientTests.Properties.Settings.Default.ALMUserName;
 		private static string Password = global::ALMClientTests.Properties.Settings.Default.ALMPassword;
+        private static string Domain = global::ALMClientTests.Properties.Settings.Default.Domain;
+        private static string Project = global::ALMClientTests.Properties.Settings.Default.Project;
 
-		private ALMRestClient.ALMClient wrapper;
+        private ALMRestClient.ALMClient wrapper;
 
 		[ClassInitialize]
 		public static void Setup(TestContext context)
@@ -27,7 +29,7 @@ namespace ALMClientTests.Tests
 		[TestInitialize]
 		public void TestSetup()
 		{
-			wrapper = new ALMRestClient.ALMClient(ALMAddress, UserName, Password, "AUTOSERVICING", "Servicing");
+			wrapper = new ALMRestClient.ALMClient(ALMAddress, UserName, Password, Domain, Project);
 			wrapper.HideCustomExceptions = true;
 		}
 
@@ -76,5 +78,15 @@ namespace ALMClientTests.Tests
 
 			Assert.IsNotNull(items);
 		}
-	}
+
+        [TestMethod()]
+        public void GetUsersTest()
+        {
+            Assert.IsNotNull(wrapper.GetUsers());
+
+            //List<ALMRestClient.ALMItem> items = wrapper.GetDefects();
+
+            Assert.IsNotNull(null);
+        }
+    }
 }

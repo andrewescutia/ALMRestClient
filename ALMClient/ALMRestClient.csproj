@@ -37,8 +37,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -52,10 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ALMAttachment.cs" />
     <Compile Include="ALMClient.cs" />
     <Compile Include="ALMClientConfig.cs" />
     <Compile Include="ALMClientException.cs" />
+    <Compile Include="ALMDomain.cs" />
+    <Compile Include="ALMDomainManager.cs" />
     <Compile Include="ALMItem.cs" />
+    <Compile Include="ALMUser.cs" />
+    <Compile Include="Attachment.cs" />
     <Compile Include="Configuration\ALMConfiguration.cs" />
     <Compile Include="Configuration\ALMConfigurations.cs" />
     <Compile Include="Configuration\ALMConfigurationSection.cs" />

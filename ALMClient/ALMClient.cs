@@ -19,8 +19,8 @@ namespace ALMRestClient
 	/// </summary>
 	public partial class ALMClient : IDisposable
 	{
-		private RestClient client;
-		private ALMClientConfig clientConfig;
+		protected RestClient client;
+        protected ALMClientConfig clientConfig;
 
 		/// <summary>
 		/// Get or set a value indicating the exceptions thrown by the client should be hidden
@@ -96,6 +96,60 @@ namespace ALMRestClient
 			return items;
 		}
 
+	    public IEnumerable<ALMUser> GetUsers()
+	    {
+            RestRequest getUsers = new RestRequest(clientConfig.UserAddress);
+
+            AddDomainAndProject(getUsers);
+            getUsers.AddHeader("Accept", "application/xml");
+
+            IRestResponse response = Execute(getUsers, "get users");
+
+            XDocument doc = XDocument.Parse(response.Content);
+
+	        var users = doc.Root.Nodes()
+                .Select(n => ALMUser.FromXML(n as XElement))
+                .Where(u => !string.IsNullOrEmpty(u.Name) && !string.IsNullOrEmpty(u.FullName));
+	        return users;
+	    }
+
+	    public IEnumerable<ALMItem> GetAttachments(string entityId)
+	    {
+
+            RestRequest getAttachments = new RestRequest(clientConfig.AttachmentsAddress);
+
+            AddDomainAndProject(getAttachments);
+            AddDefectAndId(entityId, getAttachments);
+            getAttachments.AddHeader("Accept", "application/xml");
+            
+            IRestResponse response = Execute(getAttachments, "get attachments");
+
+            XDocument doc = XDocument.Parse(response.Content);
+         
+	        var items = doc.Root.Elements().Select(e => ALMItem.FromXML(e.Elements("Fields").Elements()));
+	        return items;
+	    }
+
+	    public Attachment GetAttachment(string entityId, string attachmentId)
+	    {
+            RestRequest getAttachment = new RestRequest(clientConfig.AttachmentAddress);
+
+            AddDomainAndProject(getAttachment);
+            AddDefectAndId(entityId, getAttachment);
+	        AddAttacmentId(attachmentId, getAttachment);
+	        getAttachment.AddParameter("by-id", true);
+
+            getAttachment.AddHeader("Accept", "application/octet-stream");
+
+            IRestResponse response = Execute(getAttachment, "get attachment");
+
+	        return new Attachment()
+	        {
+                Data = response.RawBytes,
+                ContentType = response.ContentType
+	        };
+	    }
+
 		/// <summary>
 		/// Get the list of defects
 		/// </summary>
@@ -108,9 +162,7 @@ namespace ALMRestClient
 
 			do
 			{
-
 				RestRequest getDefects = new RestRequest(clientConfig.EntitiesAddress);
-
 
 				AddDomainAndProject(getDefects);
 				AddDefect(getDefects);
@@ -136,6 +188,8 @@ namespace ALMRestClient
 
 			} while (startIndex < total);
 		}
+
+       
 
 		/// <summary>
 		/// Find the total count
@@ -164,7 +218,7 @@ namespace ALMRestClient
 		/// <param name="request">The request to send</param>
 		/// <param name="message">The message used in the case of errors</param>
 		/// <remarks>The session is updated before each query and doesn't need to be managed elsewhere (except for Login/Logout)</remarks>
-		private IRestResponse Execute(IRestRequest request, string message)
+		protected IRestResponse Execute(IRestRequest request, string message)
 		{
 			if (VerifyLoggedInAuthenticatedAndExtendSession() == false)
 			{
@@ -212,6 +266,7 @@ namespace ALMRestClient
 					if (Update(id, changes) == false && HideCustomExceptions == false)
 					{
 						// Todo: Determine what exception should be thrown
+					    return false;
 					}
 				}
 			}
@@ -223,7 +278,8 @@ namespace ALMRestClient
 			}
 
 			// Delete lock was successful
-			return response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Accepted || response.StatusCode == HttpStatusCode.NoContent;
+		    //return true;
+		    return response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Accepted || response.StatusCode == HttpStatusCode.NoContent;
 		}
 
 		/// <summary>
@@ -245,6 +301,11 @@ namespace ALMRestClient
 			AddDefect(req);
 			req.AddParameter("Entity ID", id, ParameterType.UrlSegment);
 		}
+
+	    private static void AddAttacmentId(string id, RestRequest req)
+	    {
+	        req.AddParameter("Attachment ID", id, ParameterType.UrlSegment);
+	    }
 
 		/// <summary>
 		/// Add the domain and project to the request
@@ -286,7 +347,7 @@ namespace ALMRestClient
 		{
 			StringBuilder builder = new StringBuilder();
 
-			builder.Append("<Entity Type=\"defects\">");
+			builder.Append("<Entity Type=\"defect\">");
 			builder.Append("<Fields>");
 
 			foreach (var key in dictionary.Keys)

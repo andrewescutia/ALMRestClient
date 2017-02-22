@@ -22,8 +22,12 @@ namespace ALMRestClient
 		private const string EntityAddressKey = "Entity";
 		private const string IsAuthenticatedAddressKey = "IsAuthenticated";
 		private const string SessionAddresskey = "SessionAddress";
-				
-		private Dictionary<string, Dictionary<string, string>> versionSettings;
+	    private const string AttachmentCollectionAddressKey = "AttachmentCollection";
+	    private const string AttachmentAddressKey = "Attachment";
+	    private const string UserCollectionAddressKey = "Users";
+        private const string DomainCollectionAddressKey = "Domains";
+
+        private Dictionary<string, Dictionary<string, string>> versionSettings;
 
 		/// <summary>
 		/// The version to be used
@@ -165,6 +169,26 @@ namespace ALMRestClient
 				return CurrentSettings[EntityCollectionAddressKey];
 			}
 		}
+
+	    public string AttachmentsAddress
+	    {
+	        get { return CurrentSettings[AttachmentCollectionAddressKey]; }
+	    }
+
+	    public string AttachmentAddress
+	    {
+            get { return CurrentSettings[AttachmentAddressKey]; }
+	    }
+
+	    public string UserAddress
+	    {
+            get { return CurrentSettings[UserCollectionAddressKey]; }
+	    }
+
+	    public string DomainsAddress
+	    {
+            get { return CurrentSettings[DomainCollectionAddressKey]; }
+	    }
 
 		/// <summary>
 		/// Get the value for accessing a specific entity

@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -9,3 +9,7 @@
 /ALMClient/obj/Debug
 *.bak
 *.user
+ALMClient/bin/
+ALMClientTests/bin/
+ALMClient/obj/
+ALMClientTests/obj/

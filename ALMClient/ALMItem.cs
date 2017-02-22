@@ -46,6 +46,11 @@ namespace ALMRestClient
         /// </summary>
         public Dictionary<string, string> Fields { get; private set; }
 
+        public void Add(string key, string value)
+        {
+            Fields[key] = value;
+        }
+
         /// <summary>
         /// Status
         /// </summary>
@@ -53,7 +58,8 @@ namespace ALMRestClient
         { 
             get 
             { 
-                return Fields["status"]; 
+                
+                return Fields.ContainsKey("status") ? Fields["status"] : null; 
             }
             set
             {
@@ -89,7 +95,7 @@ namespace ALMRestClient
         {
             get
             {
-                return Fields["description"];
+                return Fields.ContainsKey("description") ? Fields["description"] : null;
             }
             set
             {

@@ -3,13 +3,19 @@
   <Profiles />
   <Settings>
     <Setting Name="ALMAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">http://svd0qct1:8080</Value>
     </Setting>
     <Setting Name="ALMPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">testing-o1</Value>
     </Setting>
     <Setting Name="ALMUserName" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">aescutia</Value>
+    </Setting>
+    <Setting Name="Domain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WEBSITE</Value>
+    </Setting>
+    <Setting Name="Project" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Website_MobileApp_Redesign</Value>
     </Setting>
   </Settings>
 </SettingsFile>

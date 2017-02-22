@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using RestSharp.Extensions.MonoHttp;
+using RestSharp.Contrib;
+
 
 namespace ALMRestClient
 {
