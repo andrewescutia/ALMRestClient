@@ -96,6 +96,22 @@ namespace ALMRestClient
 			return items;
 		}
 
+	    public ALMItem GetDefect(string defectId)
+	    {
+	        RestRequest getDefects = new RestRequest(clientConfig.EntityAddressGet);
+
+	        AddDomainAndProject(getDefects);
+	        AddDefectAndId(defectId, getDefects);
+	        getDefects.AddHeader("Accept", "application/xml");
+
+	        IRestResponse response = Execute(getDefects, "get defects");
+
+	        XDocument doc = XDocument.Parse(response.Content);
+            
+	        var fields = doc.Root.Elements("Fields").Elements();
+            return ALMItem.FromXML(fields);
+	    }
+
 	    public IEnumerable<ALMUser> GetUsers()
 	    {
             RestRequest getUsers = new RestRequest(clientConfig.UserAddress);

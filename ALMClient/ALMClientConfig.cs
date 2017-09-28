@@ -20,7 +20,8 @@ namespace ALMRestClient
 		private const string EntityLockKey = "LockEntity";
 		private const string EntityCollectionAddressKey = "EntityCollection";
 		private const string EntityAddressKey = "Entity";
-		private const string IsAuthenticatedAddressKey = "IsAuthenticated";
+	    private const string EntityGetAddressKey = "EntityGet";
+        private const string IsAuthenticatedAddressKey = "IsAuthenticated";
 		private const string SessionAddresskey = "SessionAddress";
 	    private const string AttachmentCollectionAddressKey = "AttachmentCollection";
 	    private const string AttachmentAddressKey = "Attachment";
@@ -200,14 +201,22 @@ namespace ALMRestClient
 				return CurrentSettings[EntityAddressKey];
 			}
 		}
-		
-		#endregion
-		#region OtherSettings
 
-		/// <summary>
-		/// Indicates whether this version requires a session for retrieving data
-		/// </summary>
-		public bool IsSessionRequired
+	    public string EntityAddressGet
+	    {
+	        get
+	        {
+	            return CurrentSettings[EntityGetAddressKey];
+	        }
+	    }
+
+        #endregion
+        #region OtherSettings
+
+        /// <summary>
+        /// Indicates whether this version requires a session for retrieving data
+        /// </summary>
+        public bool IsSessionRequired
 		{
 			get
 			{

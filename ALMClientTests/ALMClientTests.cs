@@ -80,6 +80,16 @@ namespace ALMClientTests.Tests
 		}
 
         [TestMethod()]
+	    public void GetDefectTest()
+	    {
+	        Assert.IsTrue(wrapper.Login());
+
+	        ALMRestClient.ALMItem item = wrapper.GetDefect("3740");
+
+	        Assert.IsNotNull(item);
+        }
+
+        [TestMethod()]
         public void GetUsersTest()
         {
             Assert.IsNotNull(wrapper.GetUsers());
