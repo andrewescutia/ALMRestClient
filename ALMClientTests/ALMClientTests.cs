@@ -98,5 +98,15 @@ namespace ALMClientTests.Tests
 
             Assert.IsNotNull(null);
         }
+
+	    [TestMethod()]
+        public void GetAttachmentsTest()
+	    {
+	        Assert.IsTrue(wrapper.Login());
+
+	        var items = wrapper.GetAttachments("4153");
+
+	        Assert.IsNotNull(items);
+        }
     }
 }

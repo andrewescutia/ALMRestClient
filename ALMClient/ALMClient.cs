@@ -142,7 +142,7 @@ namespace ALMRestClient
 
             XDocument doc = XDocument.Parse(response.Content);
          
-	        var items = doc.Root.Elements().Select(e => ALMItem.FromXML(e.Elements("Fields").Elements()));
+	        var items = doc.Root.Elements("Entity").Select(e => ALMItem.FromXML(e.Elements("Fields").Elements()));
 	        return items;
 	    }
 
